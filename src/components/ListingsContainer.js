@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ListingCard from "./ListingCard";
 
-function ListingsContainer() {
+function ListingsContainer( { listings, setListings, searchText}) {
 
-  const [listings, setListings] = useState([])
+  
 
   useEffect(() => {
     fetch("http://localhost:6001/listings")
