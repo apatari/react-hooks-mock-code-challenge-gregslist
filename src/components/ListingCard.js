@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 
-function ListingCard({ listing }) {
+function ListingCard({ listing, onDeleteListing }) {
 
   const [fav, setFav] = useState(false)
 
-  function handleClick() {
+  function handleFavClick() {
     setFav((fav) => !fav)
+  }
+
+  function handleDeleteClick() {
+    fetch(`http://localhost:6001/listings/${listing.id}`, {
+      method: "DELETE"
+    })
+    .then(res => res.json)
+    .then(() => onDeleteListing(listing.id))
+    
   }
 
   return (
@@ -16,13 +25,13 @@ function ListingCard({ listing }) {
       </div>
       <div className="details">
         {fav ? (
-          <button className="emoji-button favorite active" onClick={handleClick} >★</button>
+          <button className="emoji-button favorite active" onClick={handleFavClick} >★</button>
         ) : (
-          <button className="emoji-button favorite" onClick={handleClick} >☆</button>
+          <button className="emoji-button favorite" onClick={handleFavClick} >☆</button>
         )}
         <strong>{listing.description}</strong>
         <span> · {listing.location}</span>
-        <button className="emoji-button delete">🗑</button>
+        <button className="emoji-button delete" onClick={handleDeleteClick} >🗑</button>
       </div>
     </li>
   );
